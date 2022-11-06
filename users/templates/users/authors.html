@@ -1,0 +1,11 @@
+{% extends "blog/base.html" %}
+{% block content %}
+<article class="media content-section">
+    {% for author in authors %}
+    <ul>
+    <img class="rounded-circle article-img" src="{{ author.image.url }}">
+      <a class="mr-2" href="{% url 'user-posts' author.user %}">{{ author.user }}</a>
+    </ul>
+    {% endfor %}
+</article>
+{% endblock content %}
