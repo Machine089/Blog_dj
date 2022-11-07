@@ -5,9 +5,9 @@ from django.views.generic import ListView, DetailView, CreateView, UpdateView, D
 from .models import Post
 
 
-def home(request):
-    context = {'posts': Post.objects.all()}
-    return render(request, 'blog/home.html', context)
+# def home(request):
+#     context = {'posts': Post.objects.all()}
+#     return render(request, 'blog/home.html', context)
 
 
 class PostListView(ListView):
