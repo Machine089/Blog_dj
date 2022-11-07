@@ -1,13 +1,33 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import redirect, render, get_object_or_404
 from django.contrib.auth.models import User
-from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
-from .models import Post
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin 
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView 
+from django.views import View
+from django.http import HttpResponseRedirect
+from django.urls import reverse
+from .models import Post, UserPostRelation
 
 
 # def home(request):
 #     context = {'posts': Post.objects.all()}
 #     return render(request, 'blog/home.html', context)
+
+# with rest_api
+# class UserPostsRelation(UpdateModelMixin, GenericViewSet):
+#     pass
+
+class UsersPostsRelation(LoginRequiredMixin, View):
+
+    def post(self, request, pk, *args, **kwargs):
+        post = UserPostRelation.objects.all()
+        is_like = False
+        for like in post.like.all():
+            if like == request.user:
+                is_like = True
+                break
+        if is_like:
+            post.like.remove(request.user)
+        return HttpResponseRedirect(reverse('post', args=[str(pk)]))
 
 
 class PostListView(ListView):
